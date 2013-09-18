@@ -5,31 +5,30 @@ var binaryMerge = require("binary-merge")
 
 module.exports = linearExpansionSum
 
-function fastTwoSum(a, b, result) {
-	var x = a + b
-	var bv = x - a
-	result[1] = x
-	result[0] = b - bv
-	return result
-}
-
 function compareMagnitudes(a, b) {
 	return Math.abs(a) - Math.abs(b)
 }
 
 function linearExpansionSum(e, f, result) {
 	var g = binaryMerge(e, f, compareMagnitudes, result)
-	var q = [0.1, 0.1]
-	var r = [0.1, 0.1]
 	var n = e.length + f.length
 	var count = 0
-	fastTwoSum(g[1], g[0], q)
+	var a = g[1]
+	var b = g[0]
+	var x = a + b
+	var bv = x - a
+	var y = b - bv
+	var q = [y, x]
 	for(var i=2; i<n; ++i) {
-		fastTwoSum(g[i], q[0], r)
-		if(r[0]) {
-			g[count++] = r[0]
+		a = g[i]
+		b = q[0]
+		x = a + b
+		bv = x - a
+		y = b - bv
+		if(y) {
+			g[count++] = y
 		}
-		twoSum(q[1], r[1], q)
+		twoSum(q[1], x, q)
 	}
 	if(q[0]) {
 		g[count++] = q[0]

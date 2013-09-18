@@ -1,6 +1,6 @@
 {
   "name": "robust-sum",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Evaluates the sum of two nonoverlapping increasing sequences of floats",
   "main": "robust-sum.js",
   "directories": {
