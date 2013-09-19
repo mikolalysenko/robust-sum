@@ -40,9 +40,16 @@ function linearExpansionSum(e, f, result) {
 		g[count++] = 0.0
 	}
 	if(result) {
-		for(; count<g.length; ++count) {
-			g[count] = 0.0
-		}
+    if(count < g.length) {
+      var ptr = g.length-1
+      count--
+      while(count >= 0) {
+        g[ptr--] = g[count--]
+      }
+      while(ptr >= 0) {
+        g[ptr--] = 0.0
+      }
+    }
 	} else {
 		g.length = count
 	}
