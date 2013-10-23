@@ -14,5 +14,9 @@ require("tape")(function(t) {
   for(var j=-10; j<=10; ++j) {
     t.same(robustSum([i], [j]), [i+j])
   }
+
+  t.same(robustSum([0,Infinity], [0,Infinity]), [Infinity])
+
+
 	t.end()
 })

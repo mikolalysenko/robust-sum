@@ -21,7 +21,7 @@ function linearExpansionSum(e, f, result) {
   var q = [y, x]
   for(var i=2; i<n; ++i) {
     a = g[i]
-    b = q[0]
+    b = q[0] || 0.0
     x = a + b
     bv = x - a
     y = b - bv
