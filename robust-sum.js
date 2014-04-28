@@ -1,57 +1,158 @@
 "use strict"
 
 var twoSum = require("two-sum")
-var binaryMerge = require("binary-merge")
 
 module.exports = linearExpansionSum
 
-function compareMagnitudes(a, b) {
-  return Math.abs(a) - Math.abs(b)
+//Easy case: Add two scalars
+function scalarScalar(a, b) {
+  var x = a + b
+  var bv = x - a
+  var av = x - bv
+  var br = b - bv
+  var ar = a - av
+  var y = ar + br
+  if(y) {
+    return [y, x]
+  }
+  return [x]
 }
 
-function linearExpansionSum(e, f, result) {
-  var g = binaryMerge(e, f, compareMagnitudes, result)
-  var n = e.length + f.length
+function linearExpansionSum(e, f) {
+  var ne = e.length|0
+  var nf = f.length|0
+  if(ne === 1 && nf === 1) {
+    return scalarScalar(e[0], f[0])
+  }
+  var n = ne + nf
+  var g = new Array(n)
   var count = 0
-  var a = g[1]
-  var b = g[0]
+  var eptr = 0
+  var fptr = 0
+  var abs = Math.abs
+  var ei = e[eptr]
+  var ea = abs(ei)
+  var fi = f[fptr]
+  var fa = abs(fi)
+  var a, b
+  if(ea < fa) {
+    b = ei
+    eptr += 1
+    if(eptr < ne) {
+      ei = e[eptr]
+      ea = abs(ei)
+    }
+  } else {
+    b = fi
+    fptr += 1
+    if(fptr < nf) {
+      fi = f[fptr]
+      fa = abs(fi)
+    }
+  }
+  if((eptr < ne && ea < fa) || (fptr >= nf)) {
+    a = ei
+    eptr += 1
+    if(eptr < ne) {
+      ei = e[eptr]
+      ea = abs(ei)
+    }
+  } else {
+    a = fi
+    fptr += 1
+    if(fptr < nf) {
+      fi = f[fptr]
+      fa = abs(fi)
+    }
+  }
   var x = a + b
   var bv = x - a
   var y = b - bv
-  var q = [y, x]
-  for(var i=2; i<n; ++i) {
-    a = g[i]
-    b = q[0] || 0.0
+  var q0 = y
+  var q1 = x
+  var _x, _bv, _av, _br, _ar
+  while(eptr < ne && fptr < nf) {
+    if(ea < fa) {
+      a = ei
+      eptr += 1
+      if(eptr < ne) {
+        ei = e[eptr]
+        ea = abs(ei)
+      }
+    } else {
+      a = fi
+      fptr += 1
+      if(fptr < nf) {
+        fi = f[fptr]
+        fa = abs(fi)
+      }
+    }
+    b = q0
     x = a + b
     bv = x - a
     y = b - bv
     if(y) {
       g[count++] = y
     }
-    twoSum(q[1], x, q)
+    _x = q1 + x
+    _bv = _x - q1
+    _av = _x - _bv
+    _br = x - _bv
+    _ar = q1 - _av
+    q0 = _ar + _br
+    q1 = _x
   }
-  if(q[0]) {
-    g[count++] = q[0]
+  while(eptr < ne) {
+    a = ei
+    b = q0
+    x = a + b
+    bv = x - a
+    y = b - bv
+    if(y) {
+      g[count++] = y
+    }
+    _x = q1 + x
+    _bv = _x - q1
+    _av = _x - _bv
+    _br = x - _bv
+    _ar = q1 - _av
+    q0 = _ar + _br
+    q1 = _x
+    eptr += 1
+    if(eptr < ne) {
+      ei = e[eptr]
+    }
   }
-  if(q[1]) {
-    g[count++] = q[1]
+  while(fptr < nf) {
+    a = fi
+    b = q0
+    x = a + b
+    bv = x - a
+    y = b - bv
+    if(y) {
+      g[count++] = y
+    } 
+    _x = q1 + x
+    _bv = _x - q1
+    _av = _x - _bv
+    _br = x - _bv
+    _ar = q1 - _av
+    q0 = _ar + _br
+    q1 = _x
+    fptr += 1
+    if(fptr < nf) {
+      fi = f[fptr]
+    }
+  }
+  if(q0) {
+    g[count++] = q0
+  }
+  if(q1) {
+    g[count++] = q1
   }
   if(!count) {
-    g[count++] = 0.0
+    g[count++] = 0.0  
   }
-  if(result) {
-    if(count < g.length) {
-      var ptr = g.length-1
-      count--
-      while(count >= 0) {
-        g[ptr--] = g[count--]
-      }
-      while(ptr >= 0) {
-        g[ptr--] = 0.0
-      }
-    }
-  } else {
-    g.length = count
-  }
+  g.length = count
   return g
 }
