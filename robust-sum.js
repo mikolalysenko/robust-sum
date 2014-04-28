@@ -1,7 +1,5 @@
 "use strict"
 
-var twoSum = require("two-sum")
-
 module.exports = linearExpansionSum
 
 //Easy case: Add two scalars
