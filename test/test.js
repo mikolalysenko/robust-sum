@@ -33,9 +33,15 @@ require("tape")(function(t) {
   t.same(robustSum([0], [1, 1e64]), [1, 1e64])
 
   var s = [0]
+  var q = [0]
   for(var i=0; i<1000; ++i) {
-    s = robustSum(s, [Math.random() * Math.pow(2, Math.random()*1800-900)])
+    var h = Math.random() * Math.pow(2, Math.random()*1800-900)
+    s = robustSum(s, [h])
     t.ok(validate(s))
+    q = robustSum([-h], q)
+    t.ok(validate(q))
+    var r = robustSum(s, q)
+    t.same(r, [0])
   }
 
 	t.end()
