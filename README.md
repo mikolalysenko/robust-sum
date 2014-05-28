@@ -6,6 +6,10 @@ For more information, see:
 
 * Jonathan Richard Shewchuk, ["Adaptive precision floating-point arithmetic and fast robust geometric predicates"](http://www.cs.cmu.edu/afs/cs/project/quake/public/papers/robust-arithmetic.ps). 1997
 
+[![testling badge](https://ci.testling.com/mikolalysenko/robust-sum.png)](https://ci.testling.com/mikolalysenko/robust-sum)
+
+[![build status](https://secure.travis-ci.org/mikolalysenko/robust-sum.png)](http://travis-ci.org/mikolalysenko/robust-sum)
+
 ## Install
 
 		npm install robust-sum
